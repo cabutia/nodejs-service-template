@@ -1,0 +1,31 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "Checking styling before committing"
+
+# Formatting
+yarn format ||
+(
+  echo "Failed to format code"
+)
+
+# Check types
+yarn check-types ||
+(
+  echo "Type check failed"
+  false;
+)
+
+# Check format
+yarn check-format ||
+(
+  echo "Prettier format check failed"
+  false;
+)
+
+# Check code standards
+yarn check-lint ||
+(
+  echo "Lint check failed"
+  false;
+)
